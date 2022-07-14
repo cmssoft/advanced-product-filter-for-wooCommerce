@@ -271,19 +271,19 @@ final class APFFW_HELPER {
         }
 
         if (!empty($_GET['post_type'])) {
-            $fields .= '<input type="hidden" name="post_type" value="' . esc_attr(sanitize_text_field($_GET['post_type'])) . '" />';
+            $fields .= '<input type="hidden" name="post_type" value="' . sanitize_text_field($_GET['post_type']) . '" />';
         }
 
         if (!empty($_GET['product_cat'])) {
-            $fields .= '<input type="hidden" name="product_cat" value="' . esc_attr(sanitize_text_field($_GET['product_cat'])) . '" />';
+            $fields .= '<input type="hidden" name="product_cat" value="' . sanitize_text_field($_GET['product_cat']) . '" />';
         }
 
         if (!empty($_GET['product_tag'])) {
-            $fields .= '<input type="hidden" name="product_tag" value="' . esc_attr(sanitize_text_field($_GET['product_tag'])) . '" />';
+            $fields .= '<input type="hidden" name="product_tag" value="' . sanitize_text_field($_GET['product_tag']) . '" />';
         }
 
         if (!empty($_GET['orderby'])) {
-            $fields .= '<input type="hidden" name="orderby" value="' . esc_attr(sanitize_text_field($_GET['orderby'])) . '" />';
+            $fields .= '<input type="hidden" name="orderby" value="' . sanitize_text_field($_GET['orderby']) . '" />';
         }
 
         if ($_chosen_attributes) {

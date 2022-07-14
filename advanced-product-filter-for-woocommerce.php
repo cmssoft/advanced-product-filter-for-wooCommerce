@@ -1984,7 +1984,7 @@ final class APFFW {
         if (isset($_REQUEST['perpage'])) {
             if (is_integer($_REQUEST['perpage']))
             {
-                $args['posts_per_page'] = $_REQUEST['perpage'];
+                $args['posts_per_page'] = sanitize_text_field($_REQUEST['perpage']);
             }
         }
         
@@ -2336,7 +2336,7 @@ final class APFFW {
                 $shortcode_str = $this->check_shortcode("apffw", $text);
                 
                 if (!empty($shortcode_str)) {
-                    $_REQUEST['apffw_shortcode_txt'] = $_REQUEST['apffw_shortcode'];
+                    $_REQUEST['apffw_shortcode_txt'] = sanitize_text_field($_REQUEST['apffw_shortcode']);
                 }
                 
                 $form = trim(do_shortcode($shortcode_str));
@@ -2737,7 +2737,7 @@ final class APFFW {
             die('Stop!');
         
 
-        $idx = $_REQUEST['idx'];
+        $idx = sanitize_text_field($_REQUEST['idx']);
 
         $directories = array();
         if ($this->get_custom_ext_path()) {
@@ -2777,7 +2777,7 @@ final class APFFW {
 
         require(APFFW_PATH . 'lib/simple-ajax-uploader/extras/Uploader.php');
 
-        $upload_dir = $_SERVER['HTTP_LOCATION'];
+        $upload_dir = sanitize_url(esc_url($_SERVER['HTTP_LOCATION']));
         $valid_extensions = array('zip');
 
         $Upload = new FileUpload('uploadfile');
@@ -2826,10 +2826,10 @@ final class APFFW {
             $links = explode(PHP_EOL, trim($this->settings['init_only_on']));
             $server_link = '';
             if (isset($_SERVER['SCRIPT_URI'])) {
-                $server_link = $_SERVER['SCRIPT_URI'];
+                $server_link = sanitize_url(esc_url($_SERVER['SCRIPT_URI']));
             } else {
                 if (isset($_SERVER['REQUEST_URI'])) {
-                    $server_link = site_url() . $_SERVER['REQUEST_URI'];
+                    $server_link = site_url() . sanitize_url(esc_url($_SERVER['REQUEST_URI']));
                 }
             }
 
@@ -3307,7 +3307,7 @@ if (isset($_GET['page']) AND $_GET['page'] == 'wc-settings') {
 
 if (isset($_SERVER['SCRIPT_URI']) AND function_exists('basename')) {
     $init_pages = array('plugins.php', 'widgets.php', 'term.php', 'edit-tags.php');
-    $lastSegment = basename(parse_url($_SERVER['SCRIPT_URI'], PHP_URL_PATH));
+    $lastSegment = basename(parse_url(sanitize_url(esc_url($_SERVER['SCRIPT_URI'])), PHP_URL_PATH));
     if (in_array($lastSegment, $init_pages)) {
         $init_the_plugin = true;
     }
