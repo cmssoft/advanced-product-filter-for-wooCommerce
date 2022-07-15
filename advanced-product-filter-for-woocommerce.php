@@ -2329,9 +2329,9 @@ final class APFFW {
                 $shortcode_str = "";
 
                 if (empty($_REQUEST['apffw_additional_taxonomies_string'])) {
-                    $text = "[" . stripslashes($_REQUEST['apffw_shortcode']) . "]";
+                    $text = "[" . sanitize_text_field($_REQUEST['apffw_shortcode']) . "]";
                 } else {
-                    $text = "[" . stripslashes($_REQUEST['apffw_shortcode'] . " taxonomies={$_REQUEST['apffw_additional_taxonomies_string']}]");
+                    $text = "[" . sanitize_text_field($_REQUEST['apffw_shortcode'] . " taxonomies={$_REQUEST['apffw_additional_taxonomies_string']}]");
                 }
                 $shortcode_str = $this->check_shortcode("apffw", $text);
                 
@@ -3034,7 +3034,7 @@ final class APFFW {
         } elseif (isset($_REQUEST['ppp'])) {
             $per_page = intval($_REQUEST['ppp']);
         } elseif (isset($_COOKIE['woocommerce_products_per_page'])) {
-            $per_page = $_COOKIE['woocommerce_products_per_page'];
+            $per_page = sanitize_text_field($_COOKIE['woocommerce_products_per_page']);
         } else {
             $per_page = intval(get_option('wppp_default_ppp', '12'));
         }

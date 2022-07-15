@@ -71,7 +71,7 @@ final class APFFW_STORAGE {
                 break;
             case 'cookie':
                 if ($this->is_isset($key)) {
-                    $value = $_COOKIE[$key];
+                    $value = sanitize_text_field($_COOKIE[$key]);
                 }
                 break;
 
