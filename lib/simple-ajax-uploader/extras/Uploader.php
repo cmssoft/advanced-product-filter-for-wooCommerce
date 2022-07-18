@@ -171,7 +171,7 @@ class FileUpload {
 
     public function corsResponse($data) {
         if (isset($_REQUEST[$this->corsInputName])) {
-            $targetOrigin = $this->escapeJS($_REQUEST[$this->corsInputName]);
+            $targetOrigin = $this->escapeJS(sanitize_text_field($_REQUEST[$this->corsInputName]));
             $targetOrigin = htmlspecialchars($targetOrigin, ENT_QUOTES, 'UTF-8');
             return "<script>window.parent.postMessage('$data','$targetOrigin');</script>";
         }

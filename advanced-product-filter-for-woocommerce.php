@@ -213,7 +213,7 @@ final class APFFW {
         
 
         $data = array();
-        parse_str($_REQUEST['formdata'], $data);
+        parse_str(sanitize_post($_REQUEST['formdata']), $data);
 
         if (true) {
             if (isset($data['apffw_settings'])) {
@@ -2299,16 +2299,16 @@ final class APFFW {
         
         public function apffw_draw_products() {
             if (isset($_REQUEST['link'])) {
-                $link = parse_url($_REQUEST['link'], PHP_URL_QUERY);
+                $link = parse_url(sanitize_url($_REQUEST['link']), PHP_URL_QUERY);
                 parse_str($link, $_GET);
-                $_GET = apply_filters('apffw_draw_products_get_args', $_GET, $_REQUEST['link']);
+                $_GET = apply_filters('apffw_draw_products_get_args', $_GET, sanitize_url($_REQUEST['link']));
             }
             $product_ids = "";
             if (isset($_REQUEST['turbo_mode_ids'])) {
-                $product_ids = " product_ids='" . $_REQUEST['turbo_mode_ids'] . "' ";
+                $product_ids = " product_ids='" . sanitize_text_field($_REQUEST['turbo_mode_ids']) . "' ";
             }
 
-            $shortcode_str = $this->check_shortcode("apffw_products", "[" . $_REQUEST['shortcode'] . " page=" . $_REQUEST['page'] . $product_ids . "]");
+            $shortcode_str = $this->check_shortcode("apffw_products", "[" . sanitize_text_field($_REQUEST['shortcode']) . " page=" . sanitize_text_field($_REQUEST['page']) . $product_ids . "]");
 
             $products = do_shortcode($shortcode_str);
 
@@ -2331,7 +2331,7 @@ final class APFFW {
                 if (empty($_REQUEST['apffw_additional_taxonomies_string'])) {
                     $text = "[" . sanitize_text_field($_REQUEST['apffw_shortcode']) . "]";
                 } else {
-                    $text = "[" . sanitize_text_field($_REQUEST['apffw_shortcode'] . " taxonomies={$_REQUEST['apffw_additional_taxonomies_string']}]");
+                    $text = "[" . sanitize_text_field($_REQUEST['apffw_shortcode']) . " taxonomies={".sanitize_text_field($_REQUEST['apffw_additional_taxonomies_string'])."}]";
                 }
                 $shortcode_str = $this->check_shortcode("apffw", $text);
                 
@@ -2647,9 +2647,9 @@ final class APFFW {
 
         if (isset($_REQUEST[$this->get_sapffw_search_slug()])) {
             if (isset($_REQUEST['apffw_wp_query_args'])) {
-                $query_args['meta_query'] = $_REQUEST['apffw_wp_query_args']['meta_query'];
-                $query_args['tax_query'] = $_REQUEST['apffw_wp_query_args']['tax_query'];
-                $query_args['paged'] = $_REQUEST['apffw_wp_query_args']['paged'];
+                $query_args['meta_query'] = sanitize_text_field($_REQUEST['apffw_wp_query_args']['meta_query']);
+                $query_args['tax_query'] = sanitize_text_field($_REQUEST['apffw_wp_query_args']['tax_query']);
+                $query_args['paged'] = sanitize_text_field($_REQUEST['apffw_wp_query_args']['paged']);
             }
         }
 
@@ -3030,9 +3030,9 @@ final class APFFW {
     public function get_wppp_per_page() {
         $per_page = 12;
         if (isset($_REQUEST['wppp_ppp'])) {
-            $per_page = intval($_REQUEST['wppp_ppp']);
+            $per_page = intval(sanitize_text_field($_REQUEST['wppp_ppp']));
         } elseif (isset($_REQUEST['ppp'])) {
-            $per_page = intval($_REQUEST['ppp']);
+            $per_page = intval(sanitize_text_field($_REQUEST['ppp']));
         } elseif (isset($_COOKIE['woocommerce_products_per_page'])) {
             $per_page = sanitize_text_field($_COOKIE['woocommerce_products_per_page']);
         } else {
